@@ -27,7 +27,7 @@ func main() {
 	slog.Info("Init routing")
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
-	r.Post("/users", GroupGamers)    // resive json Gamer{name: string, skill: num, latency: num}
+	r.Post("/users", GroupGamers)   // resive json Gamer{name: string, skill: num, latency: num}
 	r.Post("/memory", Memory)       // resive json memType{Type: string}
 	r.Post("/groupSize", GroupSize) // resive json GSize{size: number}
 	go func() {
@@ -45,6 +45,9 @@ func main() {
 		slog.Error("Can't read config", "error", err)
 		os.Exit(2)
 	}
+
+	slog.Info(PSQL.PGDATABASE)
+
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Yekaterinburg",
 		PSQL.PGHOST,
@@ -128,9 +131,9 @@ type MemType struct {
 }
 
 type PSQLConfig struct {
-	PGUSER     string
-	PGPASSWORD string
-	PGDATABASE string
-	PGPORT     string
-	PGHOST     string
+	PGUSER     string `env:"PGUSER"`
+	PGPASSWORD string `env:"PGPASSWORD`
+	PGDATABASE string `env:"PGDATABASE"`
+	PGPORT     string `env:"PGPORT"`
+	PGHOST     string `env:"PGHOST"`
 }

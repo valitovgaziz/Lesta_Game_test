@@ -16,9 +16,9 @@ var Size = 0
 func main() {
 	slog.Info("Init routing")
 	r := chi.NewRouter()
-	r.Post("/users", GroupGames)
-	r.Post("/memory", Memory)
-	r.Post("GroupSize", GroupSize)
+	r.Post("/users", GroupGames)    // resive json Gamer{name: string, skill: num, latency: num}
+	r.Post("/memory", Memory)       // resive json memType{Type: string}
+	r.Post("/groupSize", GroupSize) // resive json GSize{size: number}
 	fmt.Println("Main.go")
 }
 
@@ -62,12 +62,12 @@ func Memory(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-type GSize struct{
+type GSize struct {
 	size int
 }
 
 type Gamer struct {
-	Name    string `json:"name"`
+	Name    string  `json:"name"`
 	Skill   float32 `json:"skill"`
 	Latency float32 `json:"latency"`
 }
@@ -77,9 +77,9 @@ type MemType struct {
 }
 
 type PSQLConfig struct {
-	PGUSER string
+	PGUSER     string
 	PGPASSWORD string
 	PGDATABASE string
-	PGPORT string
-	PGHOST string
+	PGPORT     string
+	PGHOST     string
 }

@@ -11,12 +11,14 @@ import (
 
 var Gamers = make([]Gamer, 10, 15)
 var MemoryType = "ram"
+var Size = 0
 
 func main() {
 	slog.Info("Init routing")
 	r := chi.NewRouter()
 	r.Post("/users", GroupGames)
 	r.Post("/memory", Memory)
+	r.Post("GroupSize", GroupSize)
 	fmt.Println("Main.go")
 }
 
@@ -31,8 +33,20 @@ func GroupGames(w http.ResponseWriter, r *http.Request) {
 	if MemoryType == "ram" {
 		Gamers = append(Gamers, GamerP)
 	} else {
-		TODO save to DB
+		// TODO save to DB
 	}
+	w.WriteHeader(http.StatusOK)
+}
+
+func GroupSize(w http.ResponseWriter, r *http.Request) {
+	var size GSize
+	err := json.NewDecoder(r.Body).Decode(&size)
+	if err != nil {
+		w.Write([]byte("can't decode json from Request"))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	Size = size.size
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -46,6 +60,10 @@ func Memory(w http.ResponseWriter, r *http.Request) {
 	}
 	MemoryType = memory.Type
 	w.WriteHeader(http.StatusOK)
+}
+
+type GSize struct{
+	size int
 }
 
 type Gamer struct {

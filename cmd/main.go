@@ -46,8 +46,6 @@ func main() {
 		os.Exit(2)
 	}
 
-	slog.Info(PSQL.PGDATABASE)
-
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Yekaterinburg",
 		PSQL.PGHOST,

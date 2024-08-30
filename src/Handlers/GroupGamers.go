@@ -6,6 +6,8 @@ import (
 	"net/http"
 )
 
+var MemoryType = "ram"
+
 func GroupGamers(w http.ResponseWriter, r *http.Request) {
 	var GamerP models.Gamer
 	err := json.NewDecoder(r.Body).Decode(&GamerP)
@@ -15,7 +17,7 @@ func GroupGamers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if MemoryType == "ram" {
-		Gamers = append(Gamers, GamerP)
+		models.Gamers = append(models.Gamers, GamerP)
 	} // else {
 	// TODO save to DB
 	//}

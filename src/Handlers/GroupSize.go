@@ -6,6 +6,8 @@ import (
 	"net/http"
 )
 
+var Size = 0
+
 func GroupSize(w http.ResponseWriter, r *http.Request) {
 	var size models.GSize
 	err := json.NewDecoder(r.Body).Decode(&size)
